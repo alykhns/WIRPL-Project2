@@ -1,3 +1,5 @@
+-- Active: 1778647480470@@127.0.0.1@3306@lumiere_tenant_1
+-- Active: 1778647480470@@127.0.0.1@3306@DBProject
 -- ==========================================
 -- WEEK 1: DATABASE ARCHITECTURE (VERSION A - ISOLATED)
 -- Project: Lumiere E-Commerce Ecosystem
@@ -89,6 +91,28 @@ CREATE TABLE IF NOT EXISTS shipping_tracking (
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     FOREIGN KEY (order_id) REFERENCES orders(order_id) ON DELETE CASCADE,
     FOREIGN KEY (company_id) REFERENCES shipping_companies(company_id) ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS user_addresses (
+    address_id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    label VARCHAR(50) DEFAULT 'Rumah',
+    street TEXT NOT NULL,
+    city VARCHAR(100),
+    province VARCHAR(100),
+    postal_code VARCHAR(10),
+    is_default BOOLEAN DEFAULT FALSE,
+    FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS user_wishlist (
+    wishlist_id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    product_id INT NOT NULL,
+    added_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    UNIQUE KEY unique_wishlist (user_id, product_id),
+    FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE,
+    FOREIGN KEY (product_id) REFERENCES products(product_id) ON DELETE CASCADE
 );
 
 -- ==========================================

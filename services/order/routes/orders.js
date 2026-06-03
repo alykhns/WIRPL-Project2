@@ -2,6 +2,7 @@
 // Checkout: orchestrate mainDB + paymentDB + logisticsDB sekaligus
 const router = require('express').Router();
 const { mainDB, paymentDB, logisticsDB } = require('../config/databases');
+const { verifyToken } = require('./auth');
 
 // GET /api/orders — Semua orders
 router.get('/', async (req, res) => {

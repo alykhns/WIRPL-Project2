@@ -4,6 +4,20 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const { mainDB } = require('../config/databases');
 
+// Middleware verifikasi JWT — dipakai service lain via require
+const verifyToken = (req, res, next) => {
+  const authHeader = req.headers['authorization'];
+  const token = authHeader && authHeader.split(' ')[1]; // Format: "Bearer <token>"
+  if (!token) return res.status(401).json({ error: 'Token tidak ada' });
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    req.user = decoded; // { user_id, email }
+    next();
+  } catch (err) {
+    return res.status(403).json({ error: 'Token tidak valid atau kadaluarsa' });
+  }
+};
+
 // POST /api/auth/register
 router.post('/register', async (req, res) => {
   try {
@@ -41,4 +55,9 @@ router.post('/login', async (req, res) => {
   }
 });
 
+router.get('/verify', verifyToken, (req, res) => {
+  res.json({ valid: true, user: req.user });
+});
+
 module.exports = router;
+module.exports.verifyToken = verifyToken; // export middleware untuk dipakai di users.js
