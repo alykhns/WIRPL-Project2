@@ -14,8 +14,6 @@ interface Product {
   price: number;
   stock: number;
   created_at: string;
-  category?: string;
-  material?: string;
   rating?: number;
   review_count?: number;
 }
@@ -28,7 +26,6 @@ const mockProduct = (id: number): Product => ({
   price: 299 + id * 17,
   stock: 8,
   created_at: new Date().toISOString(),
-  category: "Jewellery",
   rating: 4.6,
   review_count: 142,
 });
@@ -131,7 +128,6 @@ export default function ProductDetailPage() {
 
           {/* ── LEFT: IMAGE ── */}
           <div>
-            {/* Main image */}
             <div style={{
               position: "relative",
               aspectRatio: "1/1",
@@ -141,14 +137,11 @@ export default function ProductDetailPage() {
               marginBottom: "1rem",
               boxShadow: "0 20px 60px rgba(139,90,43,0.15)",
             }}>
-              {/* Radial light effect */}
               <div style={{
                 position: "absolute", inset: 0,
                 background: "radial-gradient(ellipse at 35% 35%, rgba(255,255,255,0.4) 0%, transparent 60%)",
                 zIndex: 1,
               }} />
-
-              {/* Placeholder ring SVG */}
               <div style={{
                 position: "absolute", inset: 0,
                 display: "flex", alignItems: "center", justifyContent: "center", zIndex: 0,
@@ -163,7 +156,6 @@ export default function ProductDetailPage() {
                 </svg>
               </div>
 
-              {/* Stock badge */}
               {product.stock <= 5 && product.stock > 0 && (
                 <div style={{
                   position: "absolute", top: "16px", left: "16px", zIndex: 10,
@@ -175,7 +167,6 @@ export default function ProductDetailPage() {
                 </div>
               )}
 
-              {/* Wishlist */}
               <button onClick={() => setIsWishlisted(!isWishlisted)} style={{
                 position: "absolute", top: "16px", right: "16px", zIndex: 10,
                 width: "42px", height: "42px", borderRadius: "50%",
@@ -190,7 +181,6 @@ export default function ProductDetailPage() {
               </button>
             </div>
 
-            {/* Thumbnail strip */}
             <div style={{ display: "flex", gap: "10px" }}>
               {[1, 2, 3, 4].map((i) => (
                 <div key={i} style={{
@@ -211,18 +201,6 @@ export default function ProductDetailPage() {
 
           {/* ── RIGHT: INFO ── */}
           <div>
-            {/* Category */}
-            <div style={{
-              display: "inline-flex", alignItems: "center", gap: "6px",
-              padding: "4px 14px", borderRadius: "20px",
-              background: "rgba(139,90,43,0.08)", border: "1px solid rgba(139,90,43,0.2)",
-              marginBottom: "1rem",
-            }}>
-              <span style={{ fontFamily: "'DM Sans'", fontSize: "11px", letterSpacing: "0.15em", textTransform: "uppercase", color: "#8B5A2B", fontWeight: 600 }}>
-                {product.category ?? "Jewellery"}
-              </span>
-            </div>
-
             {/* Name */}
             <h1 style={{
               fontFamily: "'Playfair Display', Georgia, serif",
@@ -373,8 +351,6 @@ export default function ProductDetailPage() {
             }}>
               {[
                 { label: "Product ID", value: `#LM-${String(product.product_id).padStart(4, "0")}` },
-                { label: "Category", value: product.category ?? "Jewellery" },
-                { label: "Material", value: product.material ?? "Premium Gold" },
                 { label: "Stock", value: `${product.stock} units` },
                 { label: "Added", value: new Date(product.created_at).toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" }) },
               ].map(({ label, value }) => (
@@ -392,11 +368,7 @@ export default function ProductDetailPage() {
         </div>
 
         {/* ── TABS ── */}
-        <div style={{
-          maxWidth: "1200px", margin: "0 auto",
-          padding: "0 1.5rem 6rem",
-        }}>
-          {/* Tab headers */}
+        <div style={{ maxWidth: "1200px", margin: "0 auto", padding: "0 1.5rem 6rem" }}>
           <div style={{
             display: "flex", gap: "0",
             borderBottom: "2px solid rgba(139,90,43,0.12)",
@@ -417,7 +389,6 @@ export default function ProductDetailPage() {
             ))}
           </div>
 
-          {/* Tab content */}
           {activeTab === "description" && (
             <div style={{ maxWidth: "680px" }}>
               <p style={{ fontFamily: "'DM Sans'", fontSize: "15px", color: "#5C3A1E", lineHeight: 1.9, fontWeight: 300, marginBottom: "1.5rem" }}>
@@ -432,13 +403,9 @@ export default function ProductDetailPage() {
           {activeTab === "details" && (
             <div style={{ maxWidth: "600px" }}>
               {[
-                { label: "Weight", value: "4.2g" },
-                { label: "Material", value: product.material ?? "18k Yellow Gold" },
-                { label: "Dimensions", value: "Adjustable, fits sizes 5–9" },
-                { label: "Finish", value: "High Polish" },
-                { label: "Stone", value: "Natural Diamond, 0.15ct" },
-                { label: "Certificate", value: "GIA Certified" },
-                { label: "Origin", value: "Handcrafted in Indonesia" },
+                { label: "Product ID", value: `#LM-${String(product.product_id).padStart(4, "0")}` },
+                { label: "Stock", value: `${product.stock} units` },
+                { label: "Added", value: new Date(product.created_at).toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" }) },
               ].map(({ label, value }) => (
                 <div key={label} style={{
                   display: "flex", justifyContent: "space-between", alignItems: "center",
@@ -453,7 +420,6 @@ export default function ProductDetailPage() {
 
           {activeTab === "reviews" && (
             <div style={{ maxWidth: "680px" }}>
-              {/* Rating summary */}
               <div style={{
                 display: "flex", gap: "3rem", alignItems: "center",
                 padding: "2rem", borderRadius: "20px",
@@ -473,23 +439,19 @@ export default function ProductDetailPage() {
                       <span style={{ fontFamily: "'DM Sans'", fontSize: "11px", color: "#A07040", width: "8px" }}>{stars}</span>
                       <Star size={10} fill="#C49A6C" color="#C49A6C" />
                       <div style={{ flex: 1, height: "6px", borderRadius: "3px", background: "rgba(139,90,43,0.1)", overflow: "hidden" }}>
-                        <div style={{ height: "100%", borderRadius: "3px", background: "linear-gradient(90deg, #8B5A2B, #C49A6C)", width: `${stars === 5 ? 70 : stars === 4 ? 20 : stars === 3 ? 7 : 2 : 1}%` }} />
+                        <div style={{ height: "100%", borderRadius: "3px", background: "linear-gradient(90deg, #8B5A2B, #C49A6C)", width: `${stars === 5 ? 70 : stars === 4 ? 20 : stars === 3 ? 7 : stars === 2 ? 2 : 1}%` }} />
                       </div>
                     </div>
                   ))}
                 </div>
               </div>
 
-              {/* Sample reviews */}
               {[
                 { name: "Ayu P.", location: "Jakarta", rating: 5, text: "Absolutely stunning. The craftsmanship is impeccable and it arrived beautifully packaged. Worth every penny.", date: "2 weeks ago" },
                 { name: "Rania K.", location: "Bali", rating: 5, text: "I bought this as an anniversary gift and my partner was speechless. The quality exceeded all expectations.", date: "1 month ago" },
                 { name: "Sari W.", location: "Surabaya", rating: 4, text: "Beautiful piece, exactly as described. Shipping was fast and the packaging was luxurious.", date: "2 months ago" },
               ].map((review, i) => (
-                <div key={i} style={{
-                  padding: "1.5rem 0",
-                  borderBottom: "1px solid rgba(139,90,43,0.1)",
-                }}>
+                <div key={i} style={{ padding: "1.5rem 0", borderBottom: "1px solid rgba(139,90,43,0.1)" }}>
                   <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "0.8rem" }}>
                     <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
                       <div style={{

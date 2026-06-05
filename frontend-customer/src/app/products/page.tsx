@@ -49,8 +49,9 @@ export default function ProductsPage() {
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
   const [mobileFilterOpen, setMobileFilterOpen] = useState(false);
   const [filters, setFilters] = useState<FilterState>({
-    categories: [], priceMin: 0, priceMax: 5000,
-    rating: null, materials: [], inStock: false, onSale: false, sortBy: "newest",
+    priceMin: 0,
+    priceMax: 5000,
+    sortBy: "newest",
   });
 
   const searchQuery = searchParams.get("search") || "";
@@ -63,7 +64,6 @@ export default function ProductsPage() {
       const params = new URLSearchParams();
       if (searchQuery) params.set("search", searchQuery);
       if (categoryParam) params.set("category", categoryParam);
-      if (filters.inStock) params.set("in_stock", "true");
       if (filters.sortBy) params.set("sort", filters.sortBy);
       params.set("limit", String(ITEMS_PER_PAGE));
       params.set("offset", String((page - 1) * ITEMS_PER_PAGE));
@@ -88,9 +88,7 @@ export default function ProductsPage() {
 
       // client-side price filter (API may not support it)
       const filtered = mapped.filter(p =>
-        p.price >= filters.priceMin && p.price <= filters.priceMax &&
-        (!filters.rating || p.rating >= filters.rating) &&
-        (!filters.onSale || p.isSale)
+        p.price >= filters.priceMin && p.price <= filters.priceMax
       );
 
       setProducts(filtered);
@@ -100,10 +98,6 @@ export default function ProductsPage() {
       let mock = [...MOCK_PRODUCTS];
       if (searchQuery) mock = mock.filter(p => p.name.toLowerCase().includes(searchQuery.toLowerCase()));
       if (categoryParam) mock = mock.filter(p => p.category.toLowerCase() === categoryParam.toLowerCase());
-      if (filters.categories.length) mock = mock.filter(p => filters.categories.includes(p.category));
-      if (filters.inStock) mock = mock.filter(p => p.stock > 0);
-      if (filters.onSale) mock = mock.filter(p => p.isSale);
-      if (filters.rating) mock = mock.filter(p => p.rating >= filters.rating!);
       mock = mock.filter(p => p.price >= filters.priceMin && p.price <= filters.priceMax);
       if (filters.sortBy === "price_asc") mock.sort((a, b) => a.price - b.price);
       if (filters.sortBy === "price_desc") mock.sort((a, b) => b.price - a.price);
