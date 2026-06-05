@@ -8,6 +8,7 @@ const baseConfig = {
   port: Number(process.env.DB_PORT || 3306),
   user: process.env.DB_USER || process.env.DB_MAIN_USER || "root",
   password: process.env.DB_PASSWORD ?? process.env.DB_MAIN_PASSWORD ?? "",
+  socketPath: process.env.DB_SOCKET || "/Applications/XAMPP/xamppfiles/var/mysql/mysql.sock",
   waitForConnections: true,
   connectionLimit: 10,
   queueLimit: 0,
