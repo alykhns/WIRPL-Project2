@@ -85,7 +85,7 @@ export default function CheckoutPage() {
       });
       const data = await res.json();
       if (res.ok) {
-        setSuccess({ order_id: data.order_id, tracking_number: data.tracking_number });
+          router.push(`/payment?order_id=${data.order_id}&tracking_number=${data.tracking_number}`);
       } else {
         setError(data.message ?? "Checkout gagal. Coba lagi.");
       }
@@ -152,7 +152,7 @@ export default function CheckoutPage() {
             </div>
             <div style={{ display: "flex", gap: "12px", justifyContent: "center", flexWrap: "wrap" }}>
               <button
-                onClick={() => router.push("/track")}
+                onClick={() => router.push(`/payment?order_id=${success.order_id}&tracking_number=${success.tracking_number}`)}
                 style={{
                   padding: "12px 28px", borderRadius: "50px",
                   background: "linear-gradient(135deg, #8B5A2B 0%, #C49A6C 100%)",
@@ -163,17 +163,18 @@ export default function CheckoutPage() {
               >
                 Lacak Paket →
               </button>
+              
               <button
-                onClick={() => router.push("/orders")}
+                onClick={() => router.push(`/payment?order_id=${success.order_id}&tracking_number=${success.tracking_number}`)}
                 style={{
                   padding: "12px 28px", borderRadius: "50px",
-                  background: "transparent",
-                  border: "1.5px solid rgba(139,90,43,0.35)",
-                  color: "#5C3A1E", cursor: "pointer",
-                  fontFamily: "'DM Sans', sans-serif", fontSize: "14px", fontWeight: 500,
-                }}
-              >
-                Lihat Riwayat Order
+                  background: "linear-gradient(135deg, #8B5A2B 0%, #C49A6C 100%)",
+                  color: "#FAF3E8", border: "none", cursor: "pointer",
+                  fontFamily: "'DM Sans', sans-serif", fontSize: "14px", fontWeight: 600,
+                  boxShadow: "0 6px 20px rgba(139,90,43,0.3)",
+                  }}
+                  >
+                  Bayar Sekarang →
               </button>
             </div>
           </div>
