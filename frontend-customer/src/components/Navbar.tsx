@@ -26,6 +26,8 @@ const navLinks = [
     href: "/materials",
     children: ["Gold", "Silver", "Diamonds", "Gemstones"],
   },
+  { label: "My Orders", href: "/orders" },   // ← tambah ini
+  { label: "Track Package", href: "/track" }, // ← dan ini
   { label: "Contact Us", href: "/contact" },
 ];
 
