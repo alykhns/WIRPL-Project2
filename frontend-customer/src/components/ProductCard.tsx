@@ -4,6 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { Heart, ShoppingCart, Star } from "lucide-react";
+import { useApp } from "@/lib/context";
 
 interface ProductCardProps {
   id: number;
@@ -30,12 +31,15 @@ export default function ProductCard({
   isSale = false,
   stock = 10,
 }: ProductCardProps) {
+  const { addToCart } = useApp();
   const [isWishlisted, setIsWishlisted] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
   const [addedToCart, setAddedToCart] = useState(false);
 
   const handleAddToCart = (e: React.MouseEvent) => {
     e.preventDefault();
+    if (stock <= 0) return;
+    addToCart({ product_id: id, product_name: name, price: Number(price), stock: stock ?? 10 });
     setAddedToCart(true);
     setTimeout(() => setAddedToCart(false), 1800);
   };

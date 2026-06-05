@@ -1,12 +1,13 @@
 import type { Metadata } from "next";
 import { DM_Sans } from "next/font/google";
 import "./globals.css";
+import { AppProvider } from "@/lib/context";
 
 const dmSans = DM_Sans({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Lumiere",
-  description: "Multisystem E-Commerce",
+  title: "Lumière — Curated Fashion",
+  description: "Lumière e-commerce — curated fashion pieces in premium fabrics.",
 };
 
 export default function RootLayout({
@@ -16,7 +17,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="id">
-      <body className={dmSans.className}>{children}</body>
+      <body className={dmSans.className}>
+        <AppProvider>{children}</AppProvider>
+      </body>
     </html>
   );
 }
