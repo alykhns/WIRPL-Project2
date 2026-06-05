@@ -11,21 +11,6 @@ const navLinks = [
     href: "/about",
     children: ["Our Story", "Artisans", "Sustainability"],
   },
-  {
-    label: "Collection",
-    href: "/products",
-    children: ["Rings", "Earrings", "Necklaces", "Bracelets"],
-  },
-  {
-    label: "Customization",
-    href: "/customization",
-    children: ["Engrave", "Design Your Own", "Gift Wrapping"],
-  },
-  {
-    label: "Materials",
-    href: "/materials",
-    children: ["Gold", "Silver", "Diamonds", "Gemstones"],
-  },
   { label: "Contact Us", href: "/contact" },
 ];
 

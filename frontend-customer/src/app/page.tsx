@@ -6,14 +6,13 @@ import Navbar from "@/components/Navbar";
 import ProductCard from "@/components/ProductCard";
 import SearchBar from "@/components/SearchBar";
 
-// ── Mock featured products ───────────────────────────────────────────────────
 const FEATURED_PRODUCTS = [
   {
     id: 1,
-    name: "Eternal Bloom Diamond Ring",
-    category: "Rings",
-    price: 1299,
-    originalPrice: 1599,
+    name: "Oversized Linen Blazer",
+    category: "Outerwear",
+    price: 899,
+    originalPrice: 1199,
     rating: 4.9,
     reviewCount: 312,
     isSale: true,
@@ -21,9 +20,9 @@ const FEATURED_PRODUCTS = [
   },
   {
     id: 2,
-    name: "Gold Cascade Earrings",
-    category: "Earrings",
-    price: 489,
+    name: "Silk Wrap Midi Dress",
+    category: "Dresses",
+    price: 649,
     rating: 4.7,
     reviewCount: 184,
     isSale: false,
@@ -31,10 +30,10 @@ const FEATURED_PRODUCTS = [
   },
   {
     id: 3,
-    name: "Celestial Pearl Necklace",
-    category: "Necklaces",
-    price: 749,
-    originalPrice: 920,
+    name: "Wide Leg Trousers",
+    category: "Bottoms",
+    price: 479,
+    originalPrice: 599,
     rating: 4.8,
     reviewCount: 256,
     isSale: true,
@@ -43,16 +42,14 @@ const FEATURED_PRODUCTS = [
 ];
 
 const CATEGORIES = [
-  { name: "Rings",     icon: "◎", count: "240+", href: "/products?category=rings" },
-  { name: "Earrings",  icon: "◈", count: "180+", href: "/products?category=earrings" },
-  { name: "Necklaces", icon: "◇", count: "150+", href: "/products?category=necklaces" },
-  { name: "Bracelets", icon: "◉", count: "120+", href: "/products?category=bracelets" },
-  { name: "Pendants",  icon: "✦", count: "95+",  href: "/products?category=pendants" },
-  { name: "Couple",    icon: "◆", count: "60+",  href: "/products?category=couple" },
+  { name: "Dresses",    icon: "◎", count: "240+", href: "/products?category=dresses" },
+  { name: "Tops",       icon: "◈", count: "180+", href: "/products?category=tops" },
+  { name: "Bottoms",    icon: "◇", count: "150+", href: "/products?category=bottoms" },
+  { name: "Outerwear",  icon: "◉", count: "120+", href: "/products?category=outerwear" },
+  { name: "Accessories",icon: "✦", count: "95+",  href: "/products?category=accessories" },
+  { name: "Sets",       icon: "◆", count: "60+",  href: "/products?category=sets" },
 ];
 
-
-// ── Animated counter ─────────────────────────────────────────────────────────
 function Counter({ to, suffix = "" }: { to: number; suffix?: string }) {
   const [count, setCount] = useState(0);
   const ref = useRef<HTMLSpanElement>(null);
@@ -79,30 +76,25 @@ export default function Home() {
   const [activeTestimonial, setActiveTestimonial] = useState(0);
   const [featuredProducts, setFeaturedProducts] = useState<any[]>([]);
 
-useEffect(() => {
-    console.log("useEffect jalan, fetching...");
-  fetch("http://localhost:3000/api/products?limit=3")
-    .then(res => res.json())
-    .then(data => {
-      const arr = Array.isArray(data) ? data : [];
-      const mapped = arr.map((p: any) => ({
-        id: p.product_id,
-        name: p.product_name,
-        price: p.price,
-        stock: p.stock,
-        category: "Jewellery",
-        rating: 4.5,
-        reviewCount: 0,
-        isSale: false,
-      }));
-      setFeaturedProducts(mapped.length > 0 ? mapped : FEATURED_PRODUCTS);
-    })
-    .catch((err) => {
-        console.error("URL yang difetch:", "http://localhost:3000/api/products?limit=3");
-        console.error("Error:", err);
-        setFeaturedProducts(FEATURED_PRODUCTS);
-    });
-}, []);
+  useEffect(() => {
+    fetch("http://localhost:3000/api/products?limit=3")
+      .then(res => res.json())
+      .then(data => {
+        const arr = Array.isArray(data) ? data : [];
+        const mapped = arr.map((p: any) => ({
+          id: p.product_id,
+          name: p.product_name,
+          price: p.price,
+          stock: p.stock,
+          category: "Fashion",
+          rating: 4.5,
+          reviewCount: 0,
+          isSale: false,
+        }));
+        setFeaturedProducts(mapped.length > 0 ? mapped : FEATURED_PRODUCTS);
+      })
+      .catch(() => setFeaturedProducts(FEATURED_PRODUCTS));
+  }, []);
 
   useEffect(() => {
     const t = setTimeout(() => setHeroLoaded(true), 100);
@@ -110,9 +102,9 @@ useEffect(() => {
   }, []);
 
   const testimonials = [
-    { quote: "The craftsmanship is unparalleled. My engagement ring draws compliments everywhere I go.", author: "Sophia R.", location: "Jakarta" },
-    { quote: "Lumière transformed my vision into the most beautiful necklace I've ever owned.", author: "Ayu P.", location: "Bali" },
-    { quote: "Exceptional quality and service. The engraving on our couple rings is flawless.", author: "Rania K.", location: "Surabaya" },
+    { quote: "The quality is unmatched. I wear my linen blazer everywhere and always get compliments.", author: "Sophia R.", location: "Jakarta" },
+    { quote: "Finally a local brand that understands modern minimalist style. Every piece is chef's kiss.", author: "Ayu P.", location: "Bali" },
+    { quote: "Ordered twice already. The silk dress fits like it was made just for me.", author: "Rania K.", location: "Surabaya" },
   ];
 
   return (
@@ -121,26 +113,18 @@ useEffect(() => {
 
       <main style={{ background: "#FAF3E8", minHeight: "100vh", overflowX: "hidden" }}>
 
-        {/* ── HERO ───────────────────────────────────────────────────────── */}
-        <section
-          style={{
-            minHeight: "100vh",
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            justifyContent: "center",
-            position: "relative",
-            overflow: "hidden",
-            paddingTop: "64px",
-          }}
-        >
-          {/* Background */}
+        {/* ── HERO ── */}
+        <section style={{
+          minHeight: "100vh",
+          display: "flex", flexDirection: "column",
+          alignItems: "center", justifyContent: "center",
+          position: "relative", overflow: "hidden", paddingTop: "64px",
+        }}>
           <div style={{
             position: "absolute", inset: 0,
             background: "radial-gradient(ellipse 80% 60% at 50% 40%, rgba(196,154,108,0.18) 0%, rgba(250,243,232,0) 70%), radial-gradient(ellipse 40% 40% at 20% 80%, rgba(139,90,43,0.10) 0%, transparent 60%), radial-gradient(ellipse 40% 40% at 80% 10%, rgba(212,169,106,0.12) 0%, transparent 60%)",
           }} />
 
-          {/* Floating ornament rings */}
           {[
             { size: 420, top: "8%", left: "-6%", opacity: 0.06 },
             { size: 280, top: "60%", right: "-4%", opacity: 0.07 },
@@ -155,7 +139,6 @@ useEffect(() => {
             }} />
           ))}
 
-          {/* Hero content */}
           <div style={{
             position: "relative", zIndex: 2, textAlign: "center",
             padding: "0 1.5rem", maxWidth: "800px",
@@ -166,8 +149,7 @@ useEffect(() => {
             <div style={{
               display: "inline-flex", alignItems: "center", gap: "8px",
               padding: "6px 18px", borderRadius: "30px",
-              background: "rgba(139,90,43,0.08)",
-              border: "1px solid rgba(139,90,43,0.2)",
+              background: "rgba(139,90,43,0.08)", border: "1px solid rgba(139,90,43,0.2)",
               marginBottom: "2rem",
             }}>
               <span style={{ fontSize: "10px", letterSpacing: "0.15em", textTransform: "uppercase", color: "#8B5A2B", fontFamily: "'DM Sans', sans-serif", fontWeight: 600 }}>
@@ -178,34 +160,26 @@ useEffect(() => {
             <h1 style={{
               fontFamily: "'Playfair Display', Georgia, serif",
               fontSize: "clamp(3rem, 8vw, 6.5rem)",
-              fontWeight: 700,
-              color: "#3D1F08",
-              lineHeight: 1.05,
-              marginBottom: "1.5rem",
-              letterSpacing: "-0.02em",
+              fontWeight: 700, color: "#3D1F08",
+              lineHeight: 1.05, marginBottom: "1.5rem", letterSpacing: "-0.02em",
             }}>
-              Jewellery That<br />
-              <em style={{ color: "#8B5A2B", fontStyle: "italic" }}>Tells Your Story</em>
+              Style That<br />
+              <em style={{ color: "#8B5A2B", fontStyle: "italic" }}>Speaks for You</em>
             </h1>
 
             <p style={{
               fontFamily: "'DM Sans', sans-serif",
               fontSize: "clamp(1rem, 2vw, 1.15rem)",
-              color: "#6B4520",
-              maxWidth: "520px",
-              margin: "0 auto 2.5rem",
-              lineHeight: 1.7,
-              fontWeight: 300,
+              color: "#6B4520", maxWidth: "520px",
+              margin: "0 auto 2.5rem", lineHeight: 1.7, fontWeight: 300,
             }}>
-              Handcrafted luxury pieces in gold, silver, and gemstones — designed for moments that last forever.
+              Curated fashion pieces in premium fabrics — designed for the woman who dresses with intention.
             </p>
 
-            {/* Search bar */}
             <div style={{ display: "flex", justifyContent: "center", marginBottom: "2.5rem" }}>
-              <SearchBar variant="hero" placeholder="Search rings, earrings, necklaces..." />
+              <SearchBar variant="hero" placeholder="Search dresses, tops, outerwear..." />
             </div>
 
-            {/* CTAs */}
             <div style={{ display: "flex", gap: "12px", justifyContent: "center", flexWrap: "wrap" }}>
               <Link href="/products" style={{
                 display: "inline-flex", alignItems: "center", gap: "8px",
@@ -213,26 +187,23 @@ useEffect(() => {
                 background: "linear-gradient(135deg, #8B5A2B 0%, #C49A6C 100%)",
                 color: "#FAF3E8", textDecoration: "none",
                 fontFamily: "'DM Sans', sans-serif", fontSize: "15px", fontWeight: 600,
-                boxShadow: "0 6px 24px rgba(139,90,43,0.35)",
-                transition: "all 0.3s",
+                boxShadow: "0 6px 24px rgba(139,90,43,0.35)", transition: "all 0.3s",
               }}>
-                Explore Collection →
+                Shop the Collection →
               </Link>
-              <Link href="/customization" style={{
+              <Link href="/lookbook" style={{
                 display: "inline-flex", alignItems: "center", gap: "8px",
                 padding: "14px 32px", borderRadius: "50px",
-                background: "transparent",
-                border: "1.5px solid rgba(139,90,43,0.35)",
+                background: "transparent", border: "1.5px solid rgba(139,90,43,0.35)",
                 color: "#5C3A1E", textDecoration: "none",
                 fontFamily: "'DM Sans', sans-serif", fontSize: "15px", fontWeight: 500,
                 transition: "all 0.3s",
               }}>
-                ✦ Customize Yours
+                ✦ View Lookbook
               </Link>
             </div>
           </div>
 
-          {/* Scroll hint */}
           <div style={{
             position: "absolute", bottom: "2rem", left: "50%", transform: "translateX(-50%)",
             display: "flex", flexDirection: "column", alignItems: "center", gap: "6px",
@@ -243,21 +214,18 @@ useEffect(() => {
           </div>
         </section>
 
-        {/* ── STATS STRIP ────────────────────────────────────────────────── */}
+        {/* ── STATS STRIP ── */}
         <section style={{
           borderTop: "1px solid rgba(139,90,43,0.12)",
           borderBottom: "1px solid rgba(139,90,43,0.12)",
           background: "rgba(139,90,43,0.03)",
         }}>
-          <div style={{
-            maxWidth: "1100px", margin: "0 auto",
-            display: "grid", gridTemplateColumns: "repeat(4, 1fr)",
-          }}>
+          <div style={{ maxWidth: "1100px", margin: "0 auto", display: "grid", gridTemplateColumns: "repeat(4, 1fr)" }}>
             {[
-              { value: 15000, suffix: "+", label: "Happy Customers" },
-              { value: 500, suffix: "+", label: "Unique Designs" },
-              { value: 12, suffix: "", label: "Years of Craft" },
-              { value: 98, suffix: "%", label: "Satisfaction Rate" },
+              { value: 25000, suffix: "+", label: "Happy Shoppers" },
+              { value: 800, suffix: "+", label: "Unique Styles" },
+              { value: 5, suffix: "", label: "Years in Fashion" },
+              { value: 97, suffix: "%", label: "5-Star Reviews" },
             ].map((stat, i) => (
               <div key={i} style={{
                 padding: "2.5rem 1rem", textAlign: "center",
@@ -266,8 +234,7 @@ useEffect(() => {
                 <div style={{
                   fontFamily: "'Playfair Display', serif",
                   fontSize: "clamp(2rem, 4vw, 2.8rem)",
-                  fontWeight: 700, color: "#8B5A2B", lineHeight: 1,
-                  marginBottom: "0.4rem",
+                  fontWeight: 700, color: "#8B5A2B", lineHeight: 1, marginBottom: "0.4rem",
                 }}>
                   <Counter to={stat.value} suffix={stat.suffix} />
                 </div>
@@ -283,7 +250,7 @@ useEffect(() => {
           </div>
         </section>
 
-        {/* ── CATEGORIES ─────────────────────────────────────────────────── */}
+        {/* ── CATEGORIES ── */}
         <section style={{ padding: "6rem 1.5rem", maxWidth: "1200px", margin: "0 auto" }}>
           <div style={{ textAlign: "center", marginBottom: "3.5rem" }}>
             <span style={{
@@ -296,26 +263,18 @@ useEffect(() => {
               fontSize: "clamp(2rem, 4vw, 3rem)",
               fontWeight: 700, color: "#3D1F08", margin: 0,
             }}>
-              Find Your <em style={{ color: "#8B5A2B" }}>Perfect Piece</em>
+              Find Your <em style={{ color: "#8B5A2B" }}>Perfect Look</em>
             </h2>
           </div>
 
-          <div style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(auto-fill, minmax(160px, 1fr))",
-            gap: "1rem",
-          }}>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(160px, 1fr))", gap: "1rem" }}>
             {CATEGORIES.map((cat) => (
               <Link key={cat.name} href={cat.href} style={{ textDecoration: "none" }}>
                 <div style={{
-                  padding: "2rem 1rem",
-                  borderRadius: "20px",
-                  background: "rgba(250,243,232,0.8)",
-                  border: "1px solid rgba(196,154,108,0.25)",
-                  textAlign: "center",
-                  cursor: "pointer",
-                  transition: "all 0.3s cubic-bezier(0.34,1.56,0.64,1)",
-                  backdropFilter: "blur(12px)",
+                  padding: "2rem 1rem", borderRadius: "20px",
+                  background: "rgba(250,243,232,0.8)", border: "1px solid rgba(196,154,108,0.25)",
+                  textAlign: "center", cursor: "pointer",
+                  transition: "all 0.3s cubic-bezier(0.34,1.56,0.64,1)", backdropFilter: "blur(12px)",
                 }}
                 onMouseEnter={(e) => {
                   const el = e.currentTarget as HTMLElement;
@@ -332,42 +291,30 @@ useEffect(() => {
                   el.style.background = "rgba(250,243,232,0.8)";
                 }}
                 >
-                  <div style={{ fontSize: "2.2rem", marginBottom: "0.8rem", color: "#C49A6C" }}>
-                    {cat.icon}
-                  </div>
-                  <div style={{
-                    fontFamily: "'Playfair Display', serif",
-                    fontSize: "15px", fontWeight: 600, color: "#3D1F08",
-                    marginBottom: "4px",
-                  }}>{cat.name}</div>
-                  <div style={{
-                    fontFamily: "'DM Sans', sans-serif",
-                    fontSize: "11px", color: "#A07040",
-                  }}>{cat.count} pieces</div>
+                  <div style={{ fontSize: "2.2rem", marginBottom: "0.8rem", color: "#C49A6C" }}>{cat.icon}</div>
+                  <div style={{ fontFamily: "'Playfair Display', serif", fontSize: "15px", fontWeight: 600, color: "#3D1F08", marginBottom: "4px" }}>{cat.name}</div>
+                  <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "11px", color: "#A07040" }}>{cat.count} styles</div>
                 </div>
               </Link>
             ))}
           </div>
         </section>
 
-        {/* ── FEATURED PRODUCTS ──────────────────────────────────────────── */}
-        <section style={{
-          padding: "2rem 1.5rem 6rem",
-          maxWidth: "1200px", margin: "0 auto",
-        }}>
+        {/* ── FEATURED PRODUCTS ── */}
+        <section style={{ padding: "2rem 1.5rem 6rem", maxWidth: "1200px", margin: "0 auto" }}>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginBottom: "3rem", flexWrap: "wrap", gap: "1rem" }}>
             <div>
               <span style={{
                 fontFamily: "'DM Sans', sans-serif", fontSize: "11px",
                 letterSpacing: "0.25em", textTransform: "uppercase", color: "#8B5A2B",
                 display: "block", marginBottom: "0.6rem", fontWeight: 600,
-              }}>Hand-Picked</span>
+              }}>Editor's Pick</span>
               <h2 style={{
                 fontFamily: "'Playfair Display', serif",
                 fontSize: "clamp(1.8rem, 4vw, 2.8rem)",
                 fontWeight: 700, color: "#3D1F08", margin: 0,
               }}>
-                Featured <em style={{ color: "#8B5A2B" }}>Pieces</em>
+                Featured <em style={{ color: "#8B5A2B" }}>Styles</em>
               </h2>
             </div>
             <Link href="/products" style={{
@@ -375,52 +322,44 @@ useEffect(() => {
               color: "#8B5A2B", textDecoration: "none", fontWeight: 600,
               display: "flex", alignItems: "center", gap: "6px",
               padding: "8px 18px", borderRadius: "30px",
-              border: "1.5px solid rgba(139,90,43,0.3)",
-              transition: "all 0.2s",
+              border: "1.5px solid rgba(139,90,43,0.3)", transition: "all 0.2s",
             }}>
-              View all products →
+              View all styles →
             </Link>
           </div>
 
-          <div style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))",
-            gap: "1.5rem",
-          }}>
-            {featuredProducts.map((product) => (    // ← pakai state
-                <ProductCard key={product.id} {...product} />
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))", gap: "1.5rem" }}>
+            {featuredProducts.map((product) => (
+              <ProductCard key={product.id} {...product} />
             ))}
           </div>
         </section>
 
-        {/* ── CRAFTSMANSHIP BANNER ───────────────────────────────────────── */}
+        {/* ── BRAND BANNER ── */}
         <section style={{
           background: "linear-gradient(135deg, #3D1F08 0%, #6B3F18 50%, #3D1F08 100%)",
-          padding: "5rem 1.5rem",
-          position: "relative", overflow: "hidden",
+          padding: "5rem 1.5rem", position: "relative", overflow: "hidden",
         }}>
-          {/* bg orbs */}
           <div style={{ position: "absolute", top: "-20%", right: "5%", width: 400, height: 400, borderRadius: "50%", background: "radial-gradient(circle, rgba(196,154,108,0.12) 0%, transparent 70%)", pointerEvents: "none" }} />
           <div style={{ position: "absolute", bottom: "-20%", left: "5%", width: 300, height: 300, borderRadius: "50%", background: "radial-gradient(circle, rgba(212,169,106,0.08) 0%, transparent 70%)", pointerEvents: "none" }} />
 
           <div style={{ maxWidth: "1100px", margin: "0 auto", display: "grid", gridTemplateColumns: "1fr 1fr", gap: "4rem", alignItems: "center", position: "relative" }}>
             <div>
               <span style={{ fontFamily: "'DM Sans'", fontSize: "11px", letterSpacing: "0.25em", textTransform: "uppercase", color: "#C49A6C", display: "block", marginBottom: "1rem", fontWeight: 600 }}>
-                Our Promise
+                Our Philosophy
               </span>
               <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: "clamp(2rem, 4vw, 3rem)", fontWeight: 700, color: "#FAF3E8", lineHeight: 1.1, marginBottom: "1.5rem" }}>
-                Every Piece,<br /><em style={{ color: "#C49A6C" }}>A Masterwork</em>
+                Dressed With<br /><em style={{ color: "#C49A6C" }}>Intention</em>
               </h2>
               <p style={{ fontFamily: "'DM Sans'", fontSize: "15px", color: "rgba(250,243,232,0.65)", lineHeight: 1.8, marginBottom: "2rem", fontWeight: 300 }}>
-                Each Lumière piece is crafted by hand, using ethically sourced materials and techniques perfected over generations. From sketch to finished jewel, we obsess over every millimetre.
+                Every piece in our collection is chosen with care — premium fabrics, thoughtful cuts, and timeless silhouettes that work for real life. We believe getting dressed should feel like a pleasure, not a chore.
               </p>
               <Link href="/about" style={{
                 display: "inline-flex", alignItems: "center", gap: "8px",
                 padding: "12px 28px", borderRadius: "30px",
                 border: "1.5px solid rgba(196,154,108,0.5)",
                 color: "#C49A6C", textDecoration: "none",
-                fontFamily: "'DM Sans'", fontSize: "14px", fontWeight: 600,
-                transition: "all 0.3s",
+                fontFamily: "'DM Sans'", fontSize: "14px", fontWeight: 600, transition: "all 0.3s",
               }}>
                 Our Story →
               </Link>
@@ -428,16 +367,14 @@ useEffect(() => {
 
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1rem" }}>
               {[
-                { icon: "✦", title: "Ethically Sourced", desc: "All gemstones and metals certified conflict-free" },
-                { icon: "◈", title: "Lifetime Warranty", desc: "Every piece guaranteed for quality and craftsmanship" },
-                { icon: "◉", title: "Free Engraving", desc: "Personalize your piece with a custom message" },
-                { icon: "◇", title: "30-Day Returns", desc: "Shop with confidence, hassle-free returns always" },
+                { icon: "✦", title: "Premium Fabrics", desc: "Sourced from trusted mills — linen, silk, cotton, and more" },
+                { icon: "◈", title: "Free Returns", desc: "Changed your mind? Return within 30 days, no questions asked" },
+                { icon: "◉", title: "Size Inclusive", desc: "Styles available from XS to 3XL for every body" },
+                { icon: "◇", title: "Sustainable Choices", desc: "We're working toward a more conscious wardrobe, together" },
               ].map((feat) => (
                 <div key={feat.title} style={{
-                  padding: "1.5rem",
-                  borderRadius: "16px",
-                  background: "rgba(250,243,232,0.05)",
-                  border: "1px solid rgba(196,154,108,0.15)",
+                  padding: "1.5rem", borderRadius: "16px",
+                  background: "rgba(250,243,232,0.05)", border: "1px solid rgba(196,154,108,0.15)",
                   backdropFilter: "blur(10px)",
                 }}>
                   <div style={{ fontSize: "1.4rem", color: "#C49A6C", marginBottom: "0.6rem" }}>{feat.icon}</div>
@@ -449,10 +386,10 @@ useEffect(() => {
           </div>
         </section>
 
-        {/* ── TESTIMONIALS ───────────────────────────────────────────────── */}
+        {/* ── TESTIMONIALS ── */}
         <section style={{ padding: "6rem 1.5rem", maxWidth: "800px", margin: "0 auto", textAlign: "center" }}>
           <span style={{ fontFamily: "'DM Sans'", fontSize: "11px", letterSpacing: "0.25em", textTransform: "uppercase", color: "#8B5A2B", display: "block", marginBottom: "0.8rem", fontWeight: 600 }}>
-            Testimonials
+            What They're Saying
           </span>
           <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: "clamp(1.8rem, 4vw, 2.8rem)", fontWeight: 700, color: "#3D1F08", marginBottom: "3rem" }}>
             Loved by <em style={{ color: "#8B5A2B" }}>Thousands</em>
@@ -470,8 +407,7 @@ useEffect(() => {
                 <p style={{
                   fontFamily: "'Playfair Display', serif",
                   fontSize: "clamp(1.1rem, 2.5vw, 1.4rem)",
-                  fontStyle: "italic", color: "#3D1F08",
-                  lineHeight: 1.7, marginBottom: "1.5rem",
+                  fontStyle: "italic", color: "#3D1F08", lineHeight: 1.7, marginBottom: "1.5rem",
                 }}>
                   &ldquo;{t.quote}&rdquo;
                 </p>
@@ -483,42 +419,34 @@ useEffect(() => {
             ))}
           </div>
 
-          {/* Dots */}
           <div style={{ display: "flex", justifyContent: "center", gap: "8px", marginTop: "2.5rem" }}>
             {testimonials.map((_, i) => (
               <button key={i} onClick={() => setActiveTestimonial(i)} style={{
-                width: activeTestimonial === i ? "24px" : "8px",
-                height: "8px",
-                borderRadius: "4px",
-                border: "none", cursor: "pointer",
-                background: activeTestimonial === i
-                  ? "linear-gradient(135deg, #8B5A2B, #C49A6C)"
-                  : "rgba(139,90,43,0.2)",
+                width: activeTestimonial === i ? "24px" : "8px", height: "8px",
+                borderRadius: "4px", border: "none", cursor: "pointer",
+                background: activeTestimonial === i ? "linear-gradient(135deg, #8B5A2B, #C49A6C)" : "rgba(139,90,43,0.2)",
                 transition: "all 0.3s",
               }} />
             ))}
           </div>
         </section>
 
-        {/* ── CTA BANNER ─────────────────────────────────────────────────── */}
+        {/* ── CTA BANNER ── */}
         <section style={{
-          margin: "0 1.5rem 6rem",
-          borderRadius: "28px",
+          margin: "0 1.5rem 6rem", borderRadius: "28px",
           background: "linear-gradient(135deg, rgba(196,154,108,0.15) 0%, rgba(139,90,43,0.08) 100%)",
-          border: "1px solid rgba(196,154,108,0.3)",
-          padding: "4rem 3rem",
-          textAlign: "center",
-          position: "relative", overflow: "hidden",
+          border: "1px solid rgba(196,154,108,0.3)", padding: "4rem 3rem",
+          textAlign: "center", position: "relative", overflow: "hidden",
         }}>
           <div style={{ position: "absolute", top: "-50%", left: "50%", transform: "translateX(-50%)", width: 500, height: 500, borderRadius: "50%", background: "radial-gradient(circle, rgba(196,154,108,0.08) 0%, transparent 60%)", pointerEvents: "none" }} />
           <span style={{ fontFamily: "'DM Sans'", fontSize: "11px", letterSpacing: "0.25em", textTransform: "uppercase", color: "#8B5A2B", display: "block", marginBottom: "1rem", fontWeight: 600 }}>
-            ✦ &nbsp;Limited Time &nbsp;✦
+            ✦ &nbsp;This Week Only &nbsp;✦
           </span>
           <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: "clamp(2rem, 4vw, 3.2rem)", fontWeight: 700, color: "#3D1F08", marginBottom: "1rem" }}>
-            Free Engraving on<br /><em style={{ color: "#8B5A2B" }}>All Orders This Month</em>
+            Free Shipping on<br /><em style={{ color: "#8B5A2B" }}>All Orders This Week</em>
           </h2>
           <p style={{ fontFamily: "'DM Sans'", fontSize: "15px", color: "#6B4520", marginBottom: "2.5rem", fontWeight: 300 }}>
-            Make it personal. Add your name, date, or a message — on us.
+            No minimum spend. Same-day dispatch on orders before 12PM.
           </p>
           <Link href="/products" style={{
             display: "inline-flex", alignItems: "center", gap: "8px",
@@ -532,12 +460,8 @@ useEffect(() => {
           </Link>
         </section>
 
-        {/* ── FOOTER ─────────────────────────────────────────────────────── */}
-        <footer style={{
-          background: "#2D1A08",
-          padding: "4rem 1.5rem 2rem",
-          color: "rgba(250,243,232,0.55)",
-        }}>
+        {/* ── FOOTER ── */}
+        <footer style={{ background: "#2D1A08", padding: "4rem 1.5rem 2rem", color: "rgba(250,243,232,0.55)" }}>
           <div style={{ maxWidth: "1100px", margin: "0 auto" }}>
             <div style={{ display: "grid", gridTemplateColumns: "2fr 1fr 1fr 1fr", gap: "3rem", marginBottom: "3rem" }}>
               <div>
@@ -545,7 +469,7 @@ useEffect(() => {
                   Lumi<span style={{ color: "#C49A6C", fontStyle: "italic" }}>è</span>re
                 </div>
                 <p style={{ fontFamily: "'DM Sans'", fontSize: "13px", lineHeight: 1.8, marginBottom: "1.5rem" }}>
-                  Handcrafted luxury jewellery for moments that matter. Each piece tells a story of love, craft, and timeless elegance.
+                  Curated fashion for the intentional dresser. Premium pieces, honest prices, and style that lasts beyond the season.
                 </p>
                 <div style={{ display: "flex", gap: "10px" }}>
                   {["Instagram", "Pinterest", "TikTok"].map((s) => (
@@ -553,17 +477,16 @@ useEffect(() => {
                       padding: "6px 14px", borderRadius: "20px",
                       border: "1px solid rgba(196,154,108,0.2)",
                       fontSize: "11px", color: "rgba(250,243,232,0.5)",
-                      textDecoration: "none", fontFamily: "'DM Sans'",
-                      transition: "all 0.2s",
+                      textDecoration: "none", fontFamily: "'DM Sans'", transition: "all 0.2s",
                     }}>{s}</a>
                   ))}
                 </div>
               </div>
 
               {[
-                { title: "Shop", links: ["All Products", "Rings", "Earrings", "Necklaces", "Bracelets", "Sale"] },
-                { title: "Services", links: ["Customization", "Engraving", "Repair", "Gift Wrapping", "Consultation"] },
-                { title: "Company", links: ["About Us", "Artisans", "Sustainability", "Blog", "Contact"] },
+                { title: "Shop", links: ["All Products", "Dresses", "Tops", "Bottoms", "Outerwear", "Sale"] },
+                { title: "Help", links: ["Size Guide", "Shipping Info", "Returns", "Track Order", "FAQ"] },
+                { title: "Company", links: ["About Us", "Sustainability", "Careers", "Blog", "Contact"] },
               ].map((col) => (
                 <div key={col.title}>
                   <h4 style={{ fontFamily: "'DM Sans'", fontSize: "11px", letterSpacing: "0.2em", textTransform: "uppercase", color: "rgba(250,243,232,0.7)", marginBottom: "1.2rem", fontWeight: 600 }}>
@@ -584,17 +507,11 @@ useEffect(() => {
             </div>
 
             <div style={{
-              borderTop: "1px solid rgba(250,243,232,0.08)",
-              paddingTop: "1.5rem",
-              display: "flex", justifyContent: "space-between", alignItems: "center",
-              flexWrap: "wrap", gap: "1rem",
+              borderTop: "1px solid rgba(250,243,232,0.08)", paddingTop: "1.5rem",
+              display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "1rem",
             }}>
-              <span style={{ fontFamily: "'DM Sans'", fontSize: "12px" }}>
-                © 2026 Lumière. All rights reserved.
-              </span>
-              <span style={{ fontFamily: "'DM Sans'", fontSize: "12px" }}>
-                Crafted with care in Indonesia 🇮🇩
-              </span>
+              <span style={{ fontFamily: "'DM Sans'", fontSize: "12px" }}>© 2026 Lumière. All rights reserved.</span>
+              <span style={{ fontFamily: "'DM Sans'", fontSize: "12px" }}>Made with care in Indonesia 🇮🇩</span>
             </div>
           </div>
         </footer>
@@ -602,9 +519,7 @@ useEffect(() => {
 
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,700&family=DM+Sans:wght@300;400;500;600&display=swap');
-
         * { box-sizing: border-box; margin: 0; padding: 0; }
-
         @keyframes floatRing {
           from { transform: translateY(0px) rotate(0deg); }
           to   { transform: translateY(-20px) rotate(8deg); }
@@ -613,14 +528,9 @@ useEffect(() => {
           0%, 100% { transform: translateX(-50%) translateY(0); }
           50%       { transform: translateX(-50%) translateY(8px); }
         }
-
         @media (max-width: 768px) {
-          section > div[style*="grid-template-columns: 1fr 1fr"] {
-            grid-template-columns: 1fr !important;
-          }
-          footer div[style*="grid-template-columns: 2fr"] {
-            grid-template-columns: 1fr 1fr !important;
-          }
+          section > div[style*="grid-template-columns: 1fr 1fr"] { grid-template-columns: 1fr !important; }
+          footer div[style*="grid-template-columns: 2fr"] { grid-template-columns: 1fr 1fr !important; }
         }
       `}</style>
     </>
