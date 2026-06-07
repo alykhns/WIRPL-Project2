@@ -260,6 +260,9 @@ elif page == "🏠 Dashboard":
 elif page == "📦 Manajemen Produk":
     st.markdown('<div class="section-title">📦 Manajemen Produk</div>', unsafe_allow_html=True)
 
+    if "notif" in st.session_state and st.session_state["notif"]:
+        st.success(st.session_state["notif"])
+        st.session_state["notif"] = ""
     tab_list, tab_add, tab_edit, tab_delete = st.tabs([
         "📋 Daftar Produk", "➕ Tambah Produk", "✏️ Edit Produk", "🗑️ Hapus Produk"
     ])
@@ -325,8 +328,7 @@ elif page == "📦 Manajemen Produk":
                         json={"product_name": name, "description": desc, "price": price, "stock": stock},
                         headers=auth_header())
                     if res.status_code in [200, 201]:
-                        st.success(f"✅ Produk '{name}' berhasil ditambahkan!")
-                        st.toast(f"✅ Produk '{name}' berhasil ditambahkan!", icon="📦")
+                        st.session_state["notif"] = f"✅ Produk '{name}' berhasil ditambahkan!"
                         st.rerun()
                     else:
                         st.error(f"Gagal: {res.json()}")
@@ -356,8 +358,7 @@ elif page == "📦 Manajemen Produk":
                               "price": new_price, "stock": new_stock},
                         headers=auth_header())
                     if res.status_code == 200:
-                        st.success(f"✅ Produk '{new_name}' berhasil diupdate!")
-                        st.toast(f"✅ Produk berhasil diupdate!", icon="✏️")
+                        st.session_state["notif"] = f"✅ Produk '{new_name}' berhasil diupdate!"
                         st.rerun()
                     else:
                         st.error(f"Gagal: {res.json()}")
@@ -386,8 +387,7 @@ elif page == "📦 Manajemen Produk":
                 try:
                     res = requests.delete(f"{API}/products/{p['product_id']}", headers=auth_header())
                     if res.status_code == 200:
-                        st.success("✅ Produk berhasil dihapus!")
-                        st.toast("🗑️ Produk berhasil dihapus!", icon="🗑️")
+                        st.session_state["notif"] = "✅ Produk berhasil dihapus!"
                         st.rerun()
                     else:
                         st.error(f"Gagal: {res.json()}")
