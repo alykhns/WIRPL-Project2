@@ -8,7 +8,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-app.use("/shipments", shipmentRoutes);
+app.use("/", shipmentRoutes);
 
 const PORT = process.env.PORT || 8003;
 app.listen(PORT, () => console.log(`Shipment service running on port ${PORT}`));
