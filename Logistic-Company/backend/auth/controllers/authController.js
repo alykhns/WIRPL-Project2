@@ -1,14 +1,13 @@
+// const User = require("../models/User");
+
 exports.register = async (req, res) => {
-  // TODO: implement register
-  res.json({ message: "register" });
+  res.json({ message: "register placeholder" });
 };
 
 exports.login = async (req, res) => {
-  // TODO: implement login
-  res.json({ message: "login" });
+  res.json({ message: "login placeholder" });
 };
 
 exports.getProfile = async (req, res) => {
-  // TODO: implement getProfile
-  res.json({ message: "profile" });
+  res.json({ message: "getProfile placeholder", user: req.user || null });
 };

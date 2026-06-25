@@ -1,25 +1,27 @@
-const express = require("express");
 const { createProxyMiddleware } = require("http-proxy-middleware");
 
-const router = express.Router();
-
-const services = {
-  "/auth": "http://localhost:8001",
-  "/products": "http://localhost:8002",
-  "/suppliers": "http://localhost:8003",
-  "/orders": "http://localhost:8004",
-  "/payments": "http://localhost:8005",
-  "/logistics": "http://localhost:8006",
+const proxyRoutes = {
+  "/api/auth": "http://localhost:8001",
+  "/api/courier": "http://localhost:8002",
+  "/api/shipment": "http://localhost:8003",
+  "/api/tracking": "http://localhost:8004",
+  "/api/webhook": "http://localhost:8005",
 };
 
-Object.entries(services).forEach(([path, target]) => {
-  router.use(
-    path,
-    createProxyMiddleware({
-      target,
-      changeOrigin: true,
-    })
-  );
-});
+function registerProxies(app) {
+  Object.entries(proxyRoutes).forEach(([path, target]) => {
+    app.use(
+      path,
+      createProxyMiddleware({
+        target,
+        changeOrigin: true,
+        // Strip the "/api/<service>" prefix so each service receives its own
+        // route paths (e.g. /api/auth/login -> /login,
+        // /api/courier/couriers -> /couriers).
+        pathRewrite: { [`^${path}`]: "" },
+      })
+    );
+  });
+}
 
-module.exports = router;
+module.exports = { proxyRoutes, registerProxies };

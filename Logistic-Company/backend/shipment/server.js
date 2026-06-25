@@ -2,15 +2,15 @@ const express = require("express");
 const cors = require("cors");
 require("dotenv").config();
 const sequelize = require("./config/database");
-const authRoutes = require("./routes/authRoutes");
+const shipmentRoutes = require("./routes/shipmentRoutes");
 
 const app = express();
 app.use(cors());
 app.use(express.json());
 
-app.use("/", authRoutes);
+app.use("/shipments", shipmentRoutes);
 
-const PORT = process.env.PORT || 8001;
-app.listen(PORT, () => console.log(`Auth service running on port ${PORT}`));
+const PORT = process.env.PORT || 8003;
+app.listen(PORT, () => console.log(`Shipment service running on port ${PORT}`));
 
 module.exports = { app, sequelize };

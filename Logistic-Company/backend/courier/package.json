@@ -1,5 +1,5 @@
 {
-  "name": "auth-service",
+  "name": "courier-service",
   "version": "1.0.0",
   "main": "server.js",
   "scripts": {
@@ -10,8 +10,6 @@
     "express": "^4.19.2",
     "sequelize": "^6.37.3",
     "mysql2": "^3.10.0",
-    "jsonwebtoken": "^9.0.2",
-    "bcryptjs": "^2.4.3",
     "dotenv": "^16.4.5",
     "cors": "^2.8.5"
   }
